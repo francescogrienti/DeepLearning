@@ -13,7 +13,7 @@ def main():
     plt.scatter(x, y, c="green")
     
     #Save plot to disk
-    plt.savefig("/home/francescogrienti/DL/DeepLearning/Lecture2/output5.png")
+    plt.savefig("/home/francescogrienti/DL/DeepLearning/Lecture2/output.png")
 
     #Show canvas
     plt.show()
