@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit, minimize
+import time
 
 
 def true_fun(x):
@@ -21,8 +22,12 @@ def main():
 
   # Mode 1 - using least squares
   for degree in degrees:
+    s_t = time.time()
     p = np.polyfit(x, y, degree)
     z = np.poly1d(p)
+    e_t = time.time()
+    print("Execution Numpy computation:", s_t-e_t, "seconds")
+    
     plt.plot(x_test, z(x_test), label=f"Poly degree={degree}")
     plt.plot(x_test, true_fun(x_test), label="True function")
     plt.scatter(x, y, color='b', label="Samples")
