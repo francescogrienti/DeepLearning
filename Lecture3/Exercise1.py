@@ -11,6 +11,7 @@ def MultiLayerPerceptronFirstModelRandom(n_input, n_hidden_1, n_hidden_2, n_outp
     # Allocate random normal variables for weight and bias representation of a multi-layer perceptron (MLP) with n_input size, 
     # two hidden layers with n_hidden_1 and n_hidden_2 neurons respectively and n_output size.
 
+    tf.random.set_seed(0)
     # Bias
     bias01 = tf.Variable(tf.random.normal([n_hidden_1]))
     bias12 = tf.Variable(tf.random.normal([n_hidden_2]))
