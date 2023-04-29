@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 # Global values, dimension of the dataset taken into account
 # and seed for the data generation
 N = 200
-tf.random.set_seed(0)
+#tf.random.set_seed(0)
 np.random.seed(0)
-w = tf.Variable(tf.random.normal([1]), trainable=True)
-b = tf.Variable(tf.random.normal([1]), trainable=True)
+w = tf.Variable(5.0)
+b = tf.Variable(1.0)
 epochs = range(10)
     
 
@@ -31,8 +31,9 @@ def train_func(model, x, y, learning_rate):
 
 
 def report(model, loss):
-    return f"W = {model.w.numpy()}, b = {model.b.numpy()}, loss={loss}"
+    return f"W = {model.w.numpy()}, b = {model.b.numpy()}, loss={loss.numpy()}"
 
+#Def training loop 
 def train_loop(model, x, y, epochs):
     
     weights = []
@@ -45,7 +46,6 @@ def train_loop(model, x, y, epochs):
         loss_value = loss_func(y, model(x))
 
         print(report(model, loss_value))
-
     
     return weights, bias
     
@@ -59,8 +59,7 @@ class LinearModule(tf.Module):
         self.b = b
     
     def __call__(self, x): 
-        y = self.w * x + self.b
-        return y 
+        return self.w * x + self.b
     
 
 # My custom model
@@ -139,9 +138,6 @@ def main():
     plt.legend()
     plt.show()
 
-
-
-
-
+    
 if __name__ == "__main__":
     main()
