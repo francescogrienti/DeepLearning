@@ -56,6 +56,7 @@ def main():
                      weight23, bias23])
   
   y2 = model(x_test)
+
   model.summary()
 
   # Verify that predictions between both models are in agreement.
