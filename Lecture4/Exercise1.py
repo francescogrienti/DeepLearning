@@ -30,6 +30,7 @@ def plot_data(x, y, label):
     plt.legend()
     plt.show()
 
+
 def plot_history(epochs, t_loss, v_loss):
     plt.figure()
     plt.scatter(epochs, t_loss, label="Training loss")
@@ -52,6 +53,17 @@ def BaselineLinearModel():
     return model
 
 
+def NN_model():
+    model = tf.keras.models.Sequential()
+    model.add(tf.keras.layers.Dense(10, activation='relu', input_dim=(1)))
+    model.add(tf.keras.layers.Dense(10, activation='relu', input_dim=(1)))
+    model.add(tf.keras.layers.Dense(10, activation='relu', input_dim=(1)))
+    model.add(tf.keras.layers.Dense(1, activation='linear'))
+    model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.01),
+                  loss=tf.keras.losses.mean_squared_error)
+    return model
+
+
 """
 
 MAIN
@@ -64,25 +76,56 @@ def main():
     plot_data(x_training, y_training, "Training set")
     plot_data(x_validation, y_validation, "Validation set")
 
-    # Instantiate model
-    model = BaselineLinearModel()
-    
-    # Perform a fit with model.fit with full batch size and 500 epochs. Monitor the validation data during epochs.
-    history = model.fit(x=tf.convert_to_tensor(x_training), y=tf.convert_to_tensor(y_training), batch_size=len(dataset), epochs=500, 
-              validation_data=[tf.convert_to_tensor(x_validation), tf.convert_to_tensor(y_validation)])
+    """
+    BASELINE LINEAR MODEL
+    """
 
-    # Plot the loss function for training and validation using the history object returned by model.fit
-    plot_history(history.epoch, np.array(history.history["loss"]), np.array(history.history["val_loss"]))
+    with tf.device('CPU:0'):
+        # Instantiate model
+        model = BaselineLinearModel()
+        
+        # Perform a fit with model.fit with full batch size and 500 epochs. Monitor the validation data during epochs.
+        history = model.fit(x=tf.convert_to_tensor(x_training), y=tf.convert_to_tensor(y_training), batch_size=len(dataset), epochs=500, 
+                validation_data=[tf.convert_to_tensor(x_validation), tf.convert_to_tensor(y_validation)])
 
-    # Plot the model prediction on top of data.
-    plt.figure()
-    plt.scatter(x_validation, y_validation, label="Validation data")
-    plt.scatter(x_validation, model.predict(x=x_validation, batch_size=len(x_validation)), label="Model prediction")
-    plt.xlabel("X-set")
-    plt.ylabel("Y-set")
-    plt.title("Model prediction")
-    plt.legend()
-    plt.show()
+        # Plot the loss function for training and validation using the history object returned by model.fit
+        plot_history(history.epoch, np.array(history.history["loss"]), np.array(history.history["val_loss"]))
+
+        # Plot the model prediction on top of data.
+        plt.figure()
+        plt.scatter(x_validation, y_validation, label="Validation data")
+        plt.scatter(x_validation, model.predict(x=x_validation, batch_size=len(x_validation)), label="Model prediction")
+        plt.xlabel("X-set")
+        plt.ylabel("Y-set")
+        plt.title("Model prediction")
+        plt.legend()
+        plt.show()
+
+    """
+    NEURAL NETWORK MODEL
+    """
+
+    with tf.device('CPU:1'):
+        # Instantiate NNmodel
+        model = NN_model()
+
+        # Perform a fit with model.fit with full batch size and 500 epochs. Monitor the validation data during epochs.
+        history = model.fit(x=tf.convert_to_tensor(x_training), y=tf.convert_to_tensor(y_training), batch_size=len(dataset), epochs=500, 
+                validation_data=[tf.convert_to_tensor(x_validation), tf.convert_to_tensor(y_validation)])
+
+        # Plot the loss function for training and validation using the history object returned by model.fit
+        plot_history(history.epoch, np.array(history.history["loss"]), np.array(history.history["val_loss"]))
+
+        # Plot the model prediction on top of data.
+        plt.figure()
+        plt.scatter(x_validation, y_validation, label="Validation data")
+        plt.scatter(x_validation, model.predict(x=x_validation, batch_size=len(x_validation)), label="Model prediction")
+        plt.xlabel("X-set")
+        plt.ylabel("Y-set")
+        plt.title("Model prediction")
+        plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
     main()
