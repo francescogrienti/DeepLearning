@@ -1,5 +1,6 @@
 # Hyperparameter scan for classifier 
 import tensorflow as tf
+import tensorboard
 import numpy as np
 from hyperopt import hp, tpe, Trials, fmin, space_eval, STATUS_OK
 import matplotlib.pyplot as plt
