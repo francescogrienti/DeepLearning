@@ -32,7 +32,7 @@ def hist_plot(sample, title, bins, range):
     plt.show()
 
 
-def Minimization(fun, space, algo, title):
+def minimization(fun, space, algo, title):
     
     # Perform minimization 
     trials = Trials()
@@ -65,10 +65,10 @@ def main():
     hist_plot([hyperopt.pyll.stochastic.sample(space) for _ in range(1000)], 'sampled points', 100, (-5., 6))
    
     # TPE minimization
-    Minimization(objective_function, space, tpe.suggest, 'TPE')
+    minimization(objective_function, space, tpe.suggest, 'TPE')
 
     # Random minimization 
-    Minimization(objective_function, space, rand.suggest, 'Random')
+    minimization(objective_function, space, rand.suggest, 'Random')
 
 
 if __name__ == "__main__":
