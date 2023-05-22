@@ -73,7 +73,7 @@ def main():
                      )
  
     # Plot the learning curves (loss vs epochs) for the training and validation datasets.
-    x = [i for i in range(len(history.history['loss']))]
+    x = range(1, len(history.history['loss'])+1)
     yt = history.history['loss']
     yv = history.history['val_loss']
     plt.plot(x, yt, label="Training loss")
